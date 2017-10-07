@@ -21,14 +21,15 @@ optional arguments:
 
   Git Bash Examples 
   
-  hp pc@HP /g/hello_world/VirusTotal_API_Tool (master) 
-$ python vt.py -s 'G://hello_world//Actual Spy Keylogger.rar'
+hp pc@HP /g/hello_world/VirusTotal_API_Tool (master)
+$ python vt.py -s 'G://hello_world//KGB KeyLogger.rar'
 
-        Results for MD5:  503f5b98bb116e2d691df2773d9cd4ec
+        Results for MD5:  b196f65d733ad8e45fbed0522bb1dfa6
 
-        Detected by:  0 / 59
-        Scanned on: 2017-10-07 19:17:14
+        Detected by:  1 / 57
+        Scanned on: 2017-10-07 18:29:51
 
+        Fortinet detected Malware_fam.gw
 
    hp pc@HP /g/hello_world/VirusTotal_API_Tool (master)
 $ python vt.py -j 'G://hello_world//KGB KeyLogger.rar'
