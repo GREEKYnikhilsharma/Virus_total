@@ -7,5 +7,5 @@ hashes (currently MD5)
 3. as report will be returned which will can be saved
  and any specific detection will be displayed
  
- Thanks! Xen0ph0n for awesome refrence, 
+ Thanks! Xen0ph0n for awesome reference, 
  https://github.com/Xen0ph0n/VirusTotal_API_Tool
