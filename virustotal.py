@@ -1,4 +1,10 @@
-import json, urllib.request, argparse, hashlib, re, sys, urllib.parse
+import json, argparse, hashlib, re, sys
+try:
+    from urllib2 import urlopen,Request #As for older version python 2 now urllib no longer provides valid certificates
+    from urllib import urlencode
+except ImportError:
+    from urllib.request import urlopen,Request
+    from urllib.parse import urlencode
 from pprint import pprint
 
 class vtAPI():
@@ -9,8 +15,8 @@ class vtAPI():
     def getReport(self,md5):
         param = {'resource':md5,'apikey':self.api,'allinfo': '1'}
         url = self.base + "file/report"
-        data = urllib.parse.urlencode(param).encode('utf-8')
-        result = urllib.request.urlopen(url,data)
+        data = urlencode(param).encode('utf-8')
+        result = urlopen(url,data)
         jdata =  json.loads(result.read().decode('utf-8'))
         return jdata
     
@@ -19,9 +25,9 @@ class vtAPI():
       try:
         param = {'hash':md5,'apikey':self.api}
         url = self.base + "file/download"
-        data = urllib.parse.urlencode(param).encode('utf-8')
-        req = urllib.request.Request(url,data)
-        result = urllib.request.urlopen(req)
+        data = urlencode(param).encode('utf-8')
+        req = Request(url,data)
+        result = urlopen(req)
         downloadedfile = result.read()
         if len(downloadedfile) > 0:
           fo = open(name,"wb")
@@ -35,8 +41,8 @@ class vtAPI():
 
     def downloadPcap(self,md5,name):
       try:
-        req = urllib.request.Request("https://www.virustotal.com/vtapi/v2/file/network-traffic?apikey="+self.api+"&hash="+md5)
-        result = urllib.request.urlopen(req)
+        req = Request("https://www.virustotal.com/vtapi/v2/file/network-traffic?apikey="+self.api+"&hash="+md5)
+        result = urlopen(req)
         pcapfile = result.read()
         if len(pcapfile) > 0 and '{"response_code": 0, "hash":' not in pcapfile.decode('utf-8') :
           fo = open(name,"wb")
@@ -51,8 +57,8 @@ class vtAPI():
     def rescan(self,md5):
         param = {'resource':md5,'apikey':self.api}
         url = self.base + "file/rescan"
-        data = urllib.parse.urlencode(param).encode('utf-8')
-        result = urllib.request.urlopen(url,data)
+        data = urlencode(param).encode('utf-8')
+        result = urlopen(url,data)
         print ("\n\tVirus Total Rescan Initiated for -- " + md5 + " (Requery in 10 Mins)")
 
 
@@ -80,7 +86,7 @@ def parse(it, md5, verbose, jsondump):
     print (md5 + " -- Not Found in VT")
     return 0
   # TOO possible for sha 256, sha 1 etc  
-  print ("\n\tResults for MD5: ",it['md5'],"\n\n\tDetected by: ",it['positives'],'/',it['total'],'\n\tScanned on:',it['scan_date'])
+  print ("\n\tResults for MD5: "+it['md5']+"\n\n\tDetected by: "+it['positives']+' / '+it['total']+'\n\tScanned on: '+it['scan_date'])
   
 
   for data in it['scans']:
